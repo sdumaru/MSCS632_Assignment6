@@ -1,16 +1,24 @@
 // Task class used to set and get data
 public class Task {
-    private String Data;
+    private final int taskID;
+    private final String data;
 
-    public Task(String data) {
-        this.Data = data;
+    public Task(int id, String data) {
+        this.taskID = id;
+        this.data = data;
+    }
+
+    public int getTaskID() {
+        return taskID;
     }
 
     public String getData() {
-        return Data;
+        return data;
     }
 
-    public void setData(String data) {
-        Data = data;
+    @Override
+    public String toString() {
+        return "Task {ID = " + taskID +
+                "Data = " + data + "}";
     }
 }
