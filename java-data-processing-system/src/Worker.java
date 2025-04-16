@@ -1,3 +1,5 @@
+import java.util.concurrent.ThreadLocalRandom;
+
 // Worker class using Thread execution
 public class Worker extends Thread {
     private final TaskQueue taskQueue;
@@ -19,25 +21,30 @@ public class Worker extends Thread {
                     System.out.println("Worker " + workerID + " received termination signal.");
                     break;
                 }
+
                 // Process the task
                 int taskID = task.getTaskID();
                 String taskData = task.getData();
                 System.out.println("Worker " + workerID + " processing task: " + taskID + " with data: " + taskData);
 
-                // Simulate processing delay (computational work)
-                Thread.sleep(500);
+                // Simulate processing delay (some kind of computational work)
+                Thread.sleep(ThreadLocalRandom.current().nextInt(500, 1000));
 
                 // Create result and write it to the shared output file
                 String result = "Worker " + workerID + " completed task: " + taskID + " with data: " + taskData;
                 ResultWriter.writeResult(result);
                 System.out.println("Worker " + workerID + " finished task: " + taskID + " with data: " + taskData);
             } catch (InterruptedException e) {
-                System.err.println("Worker " + workerID + " was interrupted: " + e.getMessage());
+                String result = "Worker " + workerID + " was interrupted: " + e.getMessage();
+                ResultWriter.writeResult(result);
+                System.err.println(result);
                 break;
             } catch (Exception e) {
-                System.err.println("Worker " + workerID + " encountered error: " + e.getMessage());
+                String result = "Worker " + workerID + " encountered error: " + e.getMessage();
+                ResultWriter.writeResult(result);
+                System.err.println(result);
             }
         }
-        System.out.println("Worker " + workerID + " terminated.");
+        System.out.println("--- Worker " + workerID + " terminated. ---");
     }
 }
