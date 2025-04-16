@@ -1,2 +1,4 @@
 *.class
-java-data-processing-system/output/*
+*.txt
+*.log
+*.mod

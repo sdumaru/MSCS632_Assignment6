@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"sync"
 	"time"
 )
 
 // worker function processes tasks from the 'tasks' channel and
 // sends results/errors to the 'results' channel.
-func worker(workerID int, tasks <-chan *Task, results chan<- string) {
+func worker(workerID int, wg *sync.WaitGroup, tasks <-chan *Task, results chan<- string) {
+	defer wg.Done() // Signal completion when the worker exits
 	log.Printf("Worker %d started.\n", workerID)
 
 	// Range over the tasks channel. This loop automatically exits
